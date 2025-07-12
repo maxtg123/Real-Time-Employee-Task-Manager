@@ -1,4 +1,3 @@
-// src/components/Sidebar.jsx
 import './Sidebar.css';
 
 const Sidebar = ({ activeTab, setActiveTab }) => {

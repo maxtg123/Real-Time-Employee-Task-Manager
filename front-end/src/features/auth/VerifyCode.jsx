@@ -13,7 +13,7 @@ const VerifyCode = () => {
   };
 
   const handleResend = () => {
-    // TODO: gọi API để gửi lại mã
+    // TODO: call API
     console.log('Resend code');
   };
 

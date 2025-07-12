@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./MessageBox.css"; // 💡 import CSS riêng
+import "./MessageBox.css"; 
 
 const dummyMessages = [
   {
