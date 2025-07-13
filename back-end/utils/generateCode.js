@@ -1,9 +1,11 @@
-/**
- * Tạo mã xác thực ngẫu nhiên gồm 6 chữ số
- * @returns {string}
- */
-function generateCode() {
-  return Math.floor(100000 + Math.random() * 900000).toString();
+// back-end/utils/generateCode.js
+function generateAccessCode(length = 6) {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let result = '';
+  for (let i = 0; i < length; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
 }
 
-module.exports = generateCode;
+module.exports = { generateAccessCode };

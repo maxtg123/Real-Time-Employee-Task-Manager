@@ -8,9 +8,12 @@ import './DashboardPage.css';
 
 const DashboardPage = () => {
   const [activeTab, setActiveTab] = useState('employee'); // default tab
+  const role = localStorage.getItem('userRole'); // 👈 đọc role
 
-  const renderContent = () => {
-    if (activeTab === 'employee') return <EmployeeList />;
+ const renderContent = () => {
+    if (activeTab === 'employee') {
+      return role === 'admin' ? <EmployeeList /> : <p>You don't have permission to view employees.</p>;
+    }
     if (activeTab === 'message') return <MessageBox />;
     if (activeTab === 'task') return <TaskManager />;
     return null;
@@ -18,7 +21,7 @@ const DashboardPage = () => {
 
   return (
     <div className="dashboard-container">
-    <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+    <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} role={role} />
     <div className="dashboard-main">
       <Header />
       <main className="dashboard-content">

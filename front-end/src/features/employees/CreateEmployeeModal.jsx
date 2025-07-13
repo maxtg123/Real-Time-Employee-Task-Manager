@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./CreateEmployeeModal.css"; // dùng CSS riêng
+import "./CreateEmployeeModal.css"; 
 
 const CreateEmployeeModal = ({ onClose }) => {
   const [employee, setEmployee] = useState({
@@ -18,7 +18,7 @@ const CreateEmployeeModal = ({ onClose }) => {
     e.preventDefault();
     console.log("Employee Created:", employee);
     // TODO: Gọi API tạo nhân viên nếu cần
-    onClose(); // đóng modal sau khi tạo
+    onClose(); 
   };
 
   return (
