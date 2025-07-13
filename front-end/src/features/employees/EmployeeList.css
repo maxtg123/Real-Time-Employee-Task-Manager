@@ -1,0 +1,96 @@
+.employee-list {
+    background-color: white;
+    border-radius: 10px;
+    padding: 24px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+    margin: 24px;
+    flex: 1;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .count {
+    margin-bottom: 16px;
+    color: #555;
+  }
+  
+  .actions {
+    display: flex;
+    justify-content: flex-end; /* đẩy toàn bộ sang phải */
+    align-items: center;
+    gap: 12px; /* khoảng cách giữa filter và nút */
+    margin-bottom: 16px;
+  }
+  .create-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 6px 12px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    white-space: nowrap;       /* Ngăn không cho xuống dòng */
+    width: auto;                /* Đảm bảo không chiếm toàn hàng */
+    max-width: 150px;           /* Giới hạn chiều rộng tối đa */
+    overflow: hidden;           /* Nếu text dài quá thì ẩn bớt */
+    text-overflow: ellipsis;
+    height: 36px;
+  }
+  
+  .filter-input {
+    padding: 6px 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 180px; /* giảm độ rộng lại */
+    height: 36px;
+  }
+  
+  .employee-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .employee-table th,
+  .employee-table td {
+    padding: 12px;
+    border-top: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  .status {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+  
+  .edit {
+    background-color: #007bff;
+    color: white;
+    padding: 4px 8px;
+    border: none;
+    border-radius: 4px;
+    margin-right: 8px;
+    cursor: pointer;
+  }
+  
+  .delete {
+    background-color: #dc3545;
+    color: white;
+    padding: 4px 8px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .action-buttons {
+    display: flex;
+    gap: 8px; /* khoảng cách giữa 2 nút */
+    justify-content: flex-start;
+    align-items: center;
+  }
+  
+  

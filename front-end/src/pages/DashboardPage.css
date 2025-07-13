@@ -1,0 +1,21 @@
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+  }
+  
+  .dashboard-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #fafafa;
+  }
+  
+  .dashboard-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+  }
+  
