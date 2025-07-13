@@ -17,7 +17,11 @@ const CreateEmployeeModal = ({ onClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Employee Created:", employee);
+<<<<<<< HEAD
     // TODO: call API
+=======
+    // TODO: Gọi API tạo nhân viên nếu cần
+>>>>>>> staging
     onClose(); 
   };
 

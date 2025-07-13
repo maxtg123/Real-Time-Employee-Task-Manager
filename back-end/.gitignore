@@ -1,0 +1,13 @@
+# Secrets & Config
+.env
+back-end/firebaseServiceAccountKey.json
+
+# Node.js
+node_modules/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

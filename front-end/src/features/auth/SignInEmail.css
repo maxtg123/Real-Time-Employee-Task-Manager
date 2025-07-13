@@ -1,0 +1,70 @@
+.verify-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fafafa;
+}
+
+.verify-card {
+  background: white;
+  padding: 2rem;
+  width: 400px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.back {
+  text-align: left;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+h2 {
+  font-size: 24px;
+  margin: 0.5rem 0;
+}
+
+.sub {
+  color: #777;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  background-color: #0066ff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+button:hover {
+  background-color: #0052cc;
+}
+
+.resend {
+  font-size: 0.85rem;
+  color: #333;
+}
+
+.resend span {
+  color: #007bff;
+  cursor: pointer;
+}
