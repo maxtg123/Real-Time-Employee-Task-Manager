@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 .env
+=======
+back-end/firebaseServiceAccountKey.json
+>>>>>>> feature/send-access-code
