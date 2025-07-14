@@ -89,6 +89,13 @@ function SignInPhone() {
         )}
 
         {message && <p className="message">{message}</p>}
+       <p className="note">passwordless authentication methods.</p>
+<p className="signup">
+  Don&apos;t having account?{' '}
+  <span className="link" onClick={() => navigate('/signup')}>
+    Sign up
+  </span>
+</p>
       </div>
     </div>
   );
