@@ -1,7 +1,8 @@
-import { useState } from "react";
-import "./CreateEmployeeModal.css"; 
+import { useState, useEffect } from "react";
+import "./CreateEmployeeModal.css";
+import { createEmployee,updateEmployee  } from "./employeeApi"; 
 
-const CreateEmployeeModal = ({ onClose }) => {
+const CreateEmployeeModal = ({ onClose, onEmployeeCreated,editingEmployee = null, isEdit = false   }) => {
   const [employee, setEmployee] = useState({
     name: "",
     phone: "",
@@ -10,25 +11,56 @@ const CreateEmployeeModal = ({ onClose }) => {
     address: "",
   });
 
+  const [loading, setLoading] = useState(false); 
+  const [error, setError] = useState(null);     
+  // Set initial values if editing
+   useEffect(() => {
+    if (editingEmployee) {
+      setEmployee(editingEmployee);
+    }
+  }, [editingEmployee]);
+  
+
   const handleChange = (e) => {
     setEmployee({ ...employee, [e.target.name]: e.target.value });
   };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  setError(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Employee Created:", employee);
-<<<<<<< HEAD
     // TODO: call API
-=======
     // TODO: Gọi API tạo nhân viên nếu cần
->>>>>>> staging
     onClose(); 
+  try {
+      if (isEdit) {
+        await updateEmployee({ ...employee, employeeId: editingEmployee.id });
+        console.log(" Employee Updated:", employee);
+      } else {
+        await createEmployee(employee);
+        console.log(" Employee Created:", employee);
+      }
+      onClose();
+      onEmployeeCreated();
+    } catch (err) {
+      console.error(" Failed:", err);
+      setError("Operation failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
+
 
   return (
     <div className="modal-overlay">
       <div className="modal-box">
-        <h2>Create Employee</h2>
+        <h2>{isEdit ? "Edit Employee" : "Create Employee"}</h2>
+
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+
         <form onSubmit={handleSubmit} className="form-grid">
           <div className="form-group">
             <label>Employee Name</label>
@@ -37,6 +69,7 @@ const CreateEmployeeModal = ({ onClose }) => {
               value={employee.name}
               onChange={handleChange}
               placeholder="Enter name"
+              required
             />
           </div>
 
@@ -47,6 +80,7 @@ const CreateEmployeeModal = ({ onClose }) => {
               value={employee.phone}
               onChange={handleChange}
               placeholder="Enter phone"
+              required
             />
           </div>
 
@@ -57,6 +91,7 @@ const CreateEmployeeModal = ({ onClose }) => {
               value={employee.email}
               onChange={handleChange}
               placeholder="Enter email"
+              required
             />
           </div>
 
@@ -67,6 +102,7 @@ const CreateEmployeeModal = ({ onClose }) => {
               value={employee.role}
               onChange={handleChange}
               placeholder="Enter role"
+              required
             />
           </div>
 
@@ -77,12 +113,13 @@ const CreateEmployeeModal = ({ onClose }) => {
               value={employee.address}
               onChange={handleChange}
               placeholder="Enter address"
+              required
             />
           </div>
 
           <div className="form-actions">
-            <button type="submit" className="submit-btn">
-              Create
+            <button type="submit" className="submit-btn" disabled={loading}>
+               {loading ? (isEdit ? "Updating..." : "Creating...") : (isEdit ? "Update" : "Create")}
             </button>
             <button type="button" className="cancel-btn" onClick={onClose}>
               Cancel
@@ -94,4 +131,4 @@ const CreateEmployeeModal = ({ onClose }) => {
   );
 };
 
-export default CreateEmployeeModal;
+export default CreateEmployeeModal ;

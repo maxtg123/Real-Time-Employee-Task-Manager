@@ -5,7 +5,7 @@ const serviceAccount = require('./firebaseServiceAccountKey.json');
 if (!admin.apps.length) {
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    databaseURL: process.env.FIREBASE_DB_URL, // Ensure this is set in your .env file
+    databaseURL: process.env.FIREBASE_DB_URL, 
   });
 }
 

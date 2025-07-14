@@ -78,3 +78,12 @@
   border: 1px solid #ccc;
   outline: none;
 }
+.chat-message.me {
+  align-self: flex-end;
+  background-color: #dcfce7;
+}
+
+.chat-message.them {
+  align-self: flex-start;
+  background-color: #ffffff;
+}

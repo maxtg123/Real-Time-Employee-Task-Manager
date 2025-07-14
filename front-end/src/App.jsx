@@ -12,7 +12,7 @@ function App() {
         <Route path="/" element={<SignInPhone />} />
         <Route path="/verify" element={<VerifyCode />} />
         <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/signin-email" element={<SignInEmail />} />
+        <Route path="/sign-in-email" element={<SignInEmail />} />
       </Routes>
     </BrowserRouter>
   );
