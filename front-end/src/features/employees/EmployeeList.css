@@ -19,9 +19,9 @@
   
   .actions {
     display: flex;
-    justify-content: flex-end; /* đẩy toàn bộ sang phải */
+    justify-content: flex-end;
     align-items: center;
-    gap: 12px; /* khoảng cách giữa filter và nút */
+    gap: 12px; 
     margin-bottom: 16px;
   }
   .create-btn {
@@ -32,10 +32,10 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    white-space: nowrap;       /* Ngăn không cho xuống dòng */
-    width: auto;                /* Đảm bảo không chiếm toàn hàng */
-    max-width: 150px;           /* Giới hạn chiều rộng tối đa */
-    overflow: hidden;           /* Nếu text dài quá thì ẩn bớt */
+    white-space: nowrap;       
+    width: auto;                
+    max-width: 150px;          
+    overflow: hidden;           
     text-overflow: ellipsis;
     height: 36px;
   }
@@ -45,7 +45,7 @@
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    width: 180px; /* giảm độ rộng lại */
+    width: 180px; 
     height: 36px;
   }
   
@@ -88,7 +88,7 @@
   }
   .action-buttons {
     display: flex;
-    gap: 8px; /* khoảng cách giữa 2 nút */
+    gap: 8px; 
     justify-content: flex-start;
     align-items: center;
   }

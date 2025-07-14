@@ -8,7 +8,7 @@ import './DashboardPage.css';
 
 const DashboardPage = () => {
   const [activeTab, setActiveTab] = useState('employee'); // default tab
-  const role = localStorage.getItem('userRole'); // 👈 đọc role
+  const role = localStorage.getItem('userRole'); 
 
  const renderContent = () => {
     if (activeTab === 'employee') {

@@ -1,4 +1,3 @@
-// back-end/utils/generateCode.js
 function generateAccessCode(length = 6) {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   let result = '';

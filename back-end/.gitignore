@@ -1,3 +1,4 @@
+.env
 # Secrets & Config
 .env
 back-end/firebaseServiceAccountKey.json
@@ -11,3 +12,6 @@ node_modules/
 # OS
 .DS_Store
 Thumbs.db
+
+# Firebase key file
+firebaseServiceAccountKey.json

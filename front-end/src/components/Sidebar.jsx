@@ -1,7 +1,9 @@
 import './Sidebar.css';
+import { getUser } from '../utils/storage'; 
 
 const Sidebar = ({ activeTab, setActiveTab }) => {
-  const role = localStorage.getItem('userRole'); // 👈 Lấy role
+  const currentUser = getUser(); 
+  const role = currentUser?.role;
 
   return (
     <aside className="sidebar">

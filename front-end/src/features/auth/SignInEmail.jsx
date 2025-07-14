@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import './SignInPhone.css'; 
 import { useNavigate } from 'react-router-dom';
-import './SignInEmail.css';
 import { sendEmailCode, verifyEmailCode } from './authApi';
+import { saveUser } from '../../utils/storage';
 
-const SignInEmail = () => {
+function SignInEmail() {
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
   const [step, setStep] = useState('enterEmail');
@@ -14,66 +15,76 @@ const SignInEmail = () => {
     try {
       await sendEmailCode(email);
       setStep('verifyCode');
-      setMessage('Code sent successfully. Check your email.');
+      setMessage('Code sent. Please check your email.');
     } catch (error) {
-      console.error(error);
-      setMessage('Failed to send code. Please try again.');
+      console.error('Error sending code:', error);
+      setMessage('Failed to send code. Try again.');
     }
   };
 
-  const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const response = await verifyEmailCode(email, code);
+  const handleVerifyCode = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await verifyEmailCode(email, code);
+      const user = response.data.user;
+      const token = response.data.token;
 
-    const user = response.data.user;
-    localStorage.setItem('userEmail', user.email);
-    localStorage.setItem('userRole', user.role); // 👈 lưu quyền
-    localStorage.setItem('userName', user.name || '');
+      if (!token) {
+        setMessage('Login failed: No token returned.');
+        return;
+      }
 
-    setMessage('Verification successful!');
-    navigate('/dashboard');
-  } catch (error) {
-    console.error(error);
-    setMessage('Invalid code or email.');
-  }
-};
+      saveUser({ ...user, token });
+
+      setMessage('Verification successful!');
+      navigate('/dashboard');
+    } catch (error) {
+      console.error('Error verifying code:', error);
+      setMessage('Invalid code.');
+    }
+  };
 
   return (
-    <div className="verify-container">
-      <div className="verify-card">
+    <div className="container">
+      <div className="card">
         <div className="back" onClick={() => navigate(-1)}>&larr; Back</div>
-        <h2>Email verification</h2>
-        <p className="sub">Please enter your code that was sent<br />to your email address</p>
-        
+        <h2>Sign In</h2>
+        <p className="sub">
+          {step === 'enterEmail'
+            ? 'Please enter your email to sign in'
+            : 'Enter the code sent to your email'}
+        </p>
+
         {step === 'enterEmail' ? (
-          <><>
+          <>
             <input
               type="email"
-              placeholder="Enter your email"
+              placeholder="Your Email Address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              required />
-            <button onClick={handleSendCode}>Send Code</button>
-          </><p className="note">passwordless authentication methods.</p><p className="signup">
-              Don’t having account? <a href="#">Sign up</a>
-            </p></>
+              required
+            />
+            <button onClick={handleSendCode}>Next</button>
+          </>
         ) : (
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleVerifyCode}>
             <input
               type="text"
-              placeholder="Enter Your code"
+              placeholder="Enter Code"
               value={code}
               onChange={(e) => setCode(e.target.value)}
               required
             />
-            <button type="submit">Submit</button>
+            <button type="submit">Verify</button>
           </form>
         )}
 
         {step === 'verifyCode' && (
           <p className="resend">
-            Code not received? <span onClick={handleSendCode} style={{ color: '#007bff', cursor: 'pointer' }}>Send again</span>
+            Didn't receive the code?{' '}
+            <span style={{ color: '#007bff', cursor: 'pointer' }} onClick={handleSendCode}>
+              Resend Code
+            </span>
           </p>
         )}
 
@@ -81,6 +92,6 @@ const SignInEmail = () => {
       </div>
     </div>
   );
-};
+}
 
 export default SignInEmail;

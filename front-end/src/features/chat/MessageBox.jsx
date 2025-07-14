@@ -1,60 +1,118 @@
-import { useState } from "react";
-import "./MessageBox.css"; // 💡 import CSS riêng
-
-const dummyMessages = [
-  {
-    id: 1,
-    name: "Employee 1",
-    preview: "Hello",
-    messages: ["Hi boss", "Can I ask something?"],
-  },
-  {
-    id: 2,
-    name: "Employee 2",
-    preview: "Task done",
-    messages: ["I've completed the task.", "Let me know if it's OK."],
-  },
-];
+import { useEffect, useState } from "react";
+import {
+  connectSocket,
+  disconnectSocket,
+  sendMessage,
+  onReceiveMessage,
+  offReceiveMessage,
+} from "./chatApi";
+import { getUser } from "../../utils/storage";
+import { fetchAllUsers } from "./chatApi";
+import "./MessageBox.css";
 
 const MessageBox = () => {
+  const currentUser = getUser(); 
+  const [users, setUsers] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
-  const selected = dummyMessages.find((msg) => msg.id === selectedId);
+  const [chatData, setChatData] = useState({});
+  const [inputText, setInputText] = useState("");
+
+  const selected = users.find((user) => user.id === selectedId);
+
+  useEffect(() => {
+  const fetchUsers = async () => {
+    try {
+      const allUsers = await fetchAllUsers();
+      const filtered = allUsers.filter((u) => u.id !== currentUser.id);
+      setUsers(filtered);
+    } catch (err) {
+      console.error("Error fetching users:", err);
+    }
+  };
+
+  fetchUsers();
+  connectSocket();
+
+  onReceiveMessage(({ from, to, message }) => {
+    const partnerId = from === currentUser.id ? to : from;
+    setChatData((prev) => ({
+      ...prev,
+      [partnerId]: [...(prev[partnerId] || []), { from, text: message }],
+    }));
+  });
+
+  return () => {
+    offReceiveMessage();
+    disconnectSocket();
+  };
+}, [currentUser.id]);
+
+  const handleSend = () => {
+    if (!selectedId || !inputText.trim()) return;
+
+    const message = inputText.trim();
+
+    sendMessage({
+      from: currentUser.id,
+      to: selectedId,
+      message,
+    });
+
+    setChatData((prev) => ({
+      ...prev,
+      [selectedId]: [...(prev[selectedId] || []), { from: currentUser.id, text: message }],
+    }));
+
+    setInputText("");
+  };
 
   return (
     <div className="message-container">
-      {/* Left column */}
+      {/* Left column: user list */}
       <div className="message-list">
         <h2>Messages</h2>
-        {dummyMessages.map((msg) => (
+        {users.map((user) => (
           <div
-            key={msg.id}
-            className={`message-item ${
-              selectedId === msg.id ? "active" : ""
-            }`}
-            onClick={() => setSelectedId(msg.id)}
+            key={user.id}
+            className={`message-item ${selectedId === user.id ? "active" : ""}`}
+            onClick={() => setSelectedId(user.id)}
           >
-            <div className="message-name">{msg.name}</div>
-            <div className="message-preview">{msg.preview}</div>
+            <div className="message-name">{user.name || user.email || user.phone}</div>
+            <div className="message-preview">
+              {(chatData[user.id] || []).slice(-1)[0]?.text || "No messages"}
+            </div>
           </div>
         ))}
       </div>
 
-      {/* Right column */}
+      {/* Right column: chat window */}
       <div className="chat-box">
         <div className="chat-content">
           {selected ? (
-            selected.messages.map((msg, idx) => (
-              <div key={idx} className="chat-message">
-                {msg}
-              </div>
-            ))
+           (chatData[selectedId] || []).map((msg, idx) => {
+  console.log("msg.from:", msg.from, "currentUser.id:", currentUser.id);
+  return (
+    <div
+      key={idx}
+      className={`chat-message ${msg.from === currentUser.id ? "me" : "them"}`}
+    >
+      {msg.text}
+    </div>
+  );
+})
           ) : (
-            <p className="text-gray-500">Select a message to view chat.</p>
+            <p className="text-gray-500">Select a conversation</p>
           )}
         </div>
         {selected && (
           <div className="chat-input">
-            <input type="text" placeholder="Type your reply..." />
+            <input
+              type="text"
+              placeholder="Type your reply..."
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSend()}
+            />
           </div>
         )}
       </div>

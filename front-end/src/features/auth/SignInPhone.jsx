@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './SignInPhone.css';
 import { useNavigate } from 'react-router-dom';
 import { sendPhoneCode, verifyPhoneCode } from "./authApi";
+import { saveUser } from '../../utils/storage';
 
 function SignInPhone() {
   const [phone, setPhone] = useState('');
@@ -22,24 +23,26 @@ function SignInPhone() {
   };
 
   const handleVerifyCode = async (e) => {
-  e.preventDefault();
-  try {
-    const response = await verifyPhoneCode(phone, code);
+    e.preventDefault();
+    try {
+      const response = await verifyPhoneCode(phone, code);
+      const user = response.data.user;
+      const token = response.data.token;
 
-    // ✅ Lưu thông tin user vào localStorage
-    const user = response.data.user;
-    localStorage.setItem('userPhone', user.phone);
-    localStorage.setItem('userRole', user.role); // lưu role để phân quyền
-    localStorage.setItem('userName', user.name || ''); // tuỳ backend
+      if (!token) {
+        setMessage('Login failed: No token returned.');
+        return;
+      }
 
-    setMessage('Verification successful!');
-    navigate('/dashboard');
-  } catch (error) {
-    console.error('Error verifying code:', error);
-    setMessage('Invalid code.');
-  }
-};
+      saveUser({ ...user, token });
 
+      setMessage('Verification successful!');
+      navigate('/dashboard');
+    } catch (error) {
+      console.error('Error verifying code:', error);
+      setMessage('Invalid code.');
+    }
+  };
 
   return (
     <div className="container">
