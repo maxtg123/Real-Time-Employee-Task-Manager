@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './SignInPhone.css';
 import { useNavigate } from 'react-router-dom';
-import { sendPhoneCode, verifyPhoneCode } from "./authApi";
+import { sendPhoneCode, verifyPhoneCode } from './authApi';
 import { saveUser } from '../../utils/storage';
 
 function SignInPhone() {
@@ -48,7 +48,7 @@ function SignInPhone() {
     <div className="container">
       <div className="card">
         <div className="back" onClick={() => navigate(-1)}>&larr; Back</div>
-        <h2>Sign In</h2>
+        <h2>{step === 'enterPhone' ? 'Sign In' : 'Phone Verification'}</h2>
         <p className="sub">
           {step === 'enterPhone'
             ? 'Please enter your phone to sign in'
@@ -82,20 +82,28 @@ function SignInPhone() {
         {step === 'verifyCode' && (
           <p className="resend">
             Didn't receive the code?{' '}
-            <span style={{ color: '#007bff', cursor: 'pointer' }} onClick={handleSendCode}>
+            <span
+              style={{ color: '#007bff', cursor: 'pointer' }}
+              onClick={handleSendCode}
+            >
               Resend OTP
             </span>
           </p>
         )}
 
         {message && <p className="message">{message}</p>}
-       <p className="note">passwordless authentication methods.</p>
-<p className="signup">
-  Don&apos;t having account?{' '}
-  <span className="link" onClick={() => navigate('/signup')}>
-    Sign up
-  </span>
-</p>
+
+        {step === 'enterPhone' && (
+          <>
+            <p className="note">Passwordless authentication method.</p>
+            <p className="signup">
+              Don't have an account?{' '}
+              <span className="link" onClick={() => navigate('/signup')}>
+                Sign up
+              </span>
+            </p>
+          </>
+        )}
       </div>
     </div>
   );

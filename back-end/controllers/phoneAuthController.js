@@ -24,8 +24,12 @@ const sendPhoneCode = async (req, res) => {
     await userDoc.ref.update({ accessCode: code });
 
     
-    
-    console.log(`[DEBUG] OTP for ${phone}: ${code}`);
+    // console.log(`[DEBUG] OTP for ${phone}: ${code}`);// Debugging line to log the OTP
+
+    await sendSMS(phone, `Your OTP code is: ${code}`);
+
+    console.log(`[DEBUG] Sent OTP ${code} to phone number: ${phone}`);
+
 
     return res.status(200).json({ message: 'OTP sent via SMS.' });
 
